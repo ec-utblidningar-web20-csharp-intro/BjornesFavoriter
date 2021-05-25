@@ -1,3 +1,3 @@
 exports.hello = (req, res) => {
-	res.send('nya grejr');
+	res.render('../views/hello.ejs');
 };
