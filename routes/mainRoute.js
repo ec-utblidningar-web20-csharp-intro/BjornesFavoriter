@@ -1,7 +1,7 @@
 const express = require('express'),
 	router = express.Router(),
-	hello = require('../controllers/hello');
+	mainPage = require('../controllers/MainPage');
 
-router.get('/', hello.hello);
+router.get('/', mainPage.mainPage);
 
 module.exports = router;
