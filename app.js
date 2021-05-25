@@ -3,9 +3,7 @@ const express = require('express'),
 
 require('dotenv').config();
 
-app.get('/', (Req, res) => {
-	res.send('hej hej');
-});
+app.use('/', require('./routes/hello'));
 
 const PORT = process.env.PORT || 3000;
 
