@@ -12,5 +12,23 @@
 
 <h3>Här kan du söka stad</h3>
 <input placeholder="Search somth..">
+
+
+<button id="getEvents">Hämta händelser</button>
+
+<script>
+
+document.getElementById('getEvents').addEventListener
+('click', getEvents);
+
+function getEvents(){
+    fetch('https://polisen.se/api/events')
+    .then(res => res.json())
+    .then(data => console.log(data))
+}
+
+</script>
 </body>
+
+
 </html>
