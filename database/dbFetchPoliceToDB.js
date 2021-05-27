@@ -1,4 +1,5 @@
 var mysql = require('mysql2');
+const fetch = require("node-fetch");
 require('dotenv').config();
 const PASSWORD = process.env.PASSWORD;
 
@@ -9,12 +10,23 @@ var con = mysql.createConnection({
     database: "mydb"
 });
 
-con.connect(function (err) {
-	if (err) throw err;
-	console.log('Connected!');
-    var sql = "INSERT INTO crimes(type,date,place,description) VALUES ('misshandel','2021-05-27', 'göteborg', 'svartsjukedrama')";
-	con.query(sql, function (err, result){
-		if (err) throw err;
-		console.log('Database created');
-	});
-});
+fetchCrimes();
+
+async function fetchCrimes(){
+    let res = await fetch('https://polisen.se/api/events')
+    let data = await res.json();
+
+    con.connect(function (err) {
+        if (err) throw err;
+        console.log('Connected!');
+
+            for (let i = 0; i < data.length; i++) {
+                var sql = `INSERT INTO crimes(type, date, place, description) VALUES ('${data[i].type}', '${data[i].datetime}', '${data[i].location.name}', '${data[i].summary}')`;
+                con.query(sql, function (err, result){
+                    if (err) throw err;
+                    console.log('Records inserted');
+            });
+        }
+    });
+}
+

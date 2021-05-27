@@ -10,6 +10,13 @@ var con = mysql.createConnection({
 });
 
 con.connect(function (err) {
+
+    var sql = "DROP TABLE crimes";
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("Table deleted");
+    });
+
     var sql = "CREATE TABLE crimes (id INT AUTO_INCREMENT PRIMARY KEY, type VARCHAR(255), date VARCHAR(255), place VARCHAR(255), description VARCHAR(255))";
     con.query(sql, function (err, result) {
         if (err) throw err;
