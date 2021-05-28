@@ -52,6 +52,10 @@
         #page-title{
             font-size: 3em;
         }
+        #most-common-crimes{
+            width: 80%;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -61,6 +65,18 @@
         </h1>
     </header>
     <main>
+        <section id="most-common-crimes">
+            <h2>De fem mest vanliga brotten i området</h2>
+            <% let index = 0;  %> 
+            <% for(let key in statistic) { %>
+                <ul>
+                    <% if(index < 5)  {%> 
+                    <li><%= key %>  : <%= statistic[key] %> </li>
+                    <% index ++ } %> 
+                </ul>
+            <% }; %>
+        </section>
+    
         <section id="police-data">
             <table>
                 <tr id="table-header">
@@ -77,11 +93,6 @@
                     <td><%= dat.summary%></td>
                     </tr>
                 <% }); %>
-                <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                </tr>
             </table>
         </section>
     </main>
