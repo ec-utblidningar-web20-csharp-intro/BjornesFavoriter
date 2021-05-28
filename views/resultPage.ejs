@@ -1,1 +1,91 @@
-<h1>ResultPage</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResultPage | <%= city %> </title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
+        *{
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #12191f;
+            color: #DCDCDC;
+            font-family: 'Lato', sans-serif;
+        }
+        table {
+            width: 80%;
+            margin: 0 auto;
+            text-align: left;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 1.5em;
+            width: 25%;
+            border: none;
+        }   
+        tr {
+            width: 100%;
+        }
+
+        tr:nth-child(even){
+            background-color: #2e3e4d;
+        }
+        tr:nth-child(odd){
+            background-color: #24323d;
+        }
+
+        #table-header{
+            background-color: #12191f;
+            color: #40576b;
+        }
+
+        header{
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #page-title{
+            font-size: 3em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 id="page-title">
+            <%= city.toUpperCase() %> 
+        </h1>
+    </header>
+    <main>
+        <section id="police-data">
+            <table>
+                <tr id="table-header">
+                    <th>Typ av brott</th>
+                    <th>Plats</th>
+                    <th>Tid</th>
+                    <th>Beskrivning</th>
+                </tr>
+                <% data.forEach(function(dat) { %>
+                    <tr>
+                    <td><%= dat.type %></td>
+                    <td><%= dat.location.name%></td>
+                    <td><%= dat.datetime%></td>
+                    <td><%= dat.summary%></td>
+                    </tr>
+                <% }); %>
+                <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                </tr>
+            </table>
+        </section>
+    </main>
+</body>
+</html>
+
+      

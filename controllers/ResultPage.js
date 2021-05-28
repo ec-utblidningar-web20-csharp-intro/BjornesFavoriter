@@ -5,9 +5,7 @@ exports.resultPageGet = (req, res) => {
     if(!city){
         res.redirect('/');
     } else {
-        const result = getData(city).then(data => console.log(data));
-        res.render('resultpage');
-	    console.log(result);
+        getData(city).then(data => res.render('resultpage', {data:data, city:city}));
     } 
 };
 
