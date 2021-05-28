@@ -4,9 +4,9 @@ exports.resultPageGet = (req, res) => {
     const city = req.query.city;
     if(!city){
         res.redirect('/');
-    } else {        
+    } else {       
         getData(city)
-        .then(data => res.render('resultpage', {data:data, city:city, statistic: crimeStatistic(data)}));
+        .then(data => res.render('resultpage', {data:data, city:city, statistic: crimeStatistic(data), crimeCount:crimesCount(data)}));
     } 
 };
 
@@ -18,6 +18,33 @@ async function getData (query)  {
     let search = await fetch(`https://polisen.se/api/events?locationname=${query}`);
     let result = await search.json();
     return result;
+}
+
+function crimesCount(data){
+    let timesArray = [];
+    for(let i = 0; i < data.length; i++){
+        let date = data[i].datetime;
+        let newDate = date.slice(0,10);
+        timesArray.push(newDate);
+    }
+    let date = new Date();
+    let fullDate = date.getFullYear() + '-' + '0' + (date.getMonth() + 1) + '-' + date.getDate();
+
+    let today = 0;
+    let week = 0;
+    let month = 0;
+    
+    timesArray.map((date) => {
+        if(date === fullDate){
+            today++;
+        }
+    });
+
+    return {
+        today: today,
+        week: week,
+        month: month
+    };
 }
 
 function crimeStatistic (crimes){

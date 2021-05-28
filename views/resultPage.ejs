@@ -53,9 +53,22 @@
             font-size: 3em;
         }
         #most-common-crimes{
+            margin-right: 3em;
+        }
+        .flex-container{
+            display: flex;
             width: 80%;
             margin: 0 auto;
         }
+        .crimes-count-display{
+            background-color: #2e3e4d;
+            margin-bottom: 2em;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            width: 120%;
+        }
+
     </style>
 </head>
 <body>
@@ -65,17 +78,31 @@
         </h1>
     </header>
     <main>
-        <section id="most-common-crimes">
-            <h2>De fem mest vanliga brotten i området</h2>
-            <% let index = 0;  %> 
-            <% for(let key in statistic) { %>
-                <ul>
-                    <% if(index < 5)  {%> 
-                    <li><%= key %>  : <%= statistic[key] %> </li>
-                    <% index ++ } %> 
-                </ul>
-            <% }; %>
-        </section>
+        <div class="flex-container">
+            <section id="most-common-crimes">
+                <h2>De fem mest vanliga brotten i området</h2>
+                <% let index = 0;  %> 
+                <% for(let key in statistic) { %>
+                    <ul>
+                        <% if(index < 5)  {%> 
+                        <li><%= key %>  : <%= statistic[key] %> </li>
+                        <% index ++ } %> 
+                    </ul>
+                <% }; %>      
+            </section>
+            <section id="crimes-count">
+                <h2>Antal brott</h2>
+                <div class="crimes-count-display">
+                    <p>Idag: <%= crimeCount.today %> </p>
+                </div>
+                <div class="crimes-count-display">
+                    <p>Denna veckan: <%= crimeCount.week %> </p>
+                </div>
+                <div class="crimes-count-display">
+                    <p>Denna månaden: <%= crimeCount.month %> </p>
+                </div>
+            </section>
+        </div>
     
         <section id="police-data">
             <table>
