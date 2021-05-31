@@ -1,11 +1,13 @@
 const fetch = require('node-fetch');
+const date = require('date-and-time');
 
 exports.resultPageGet = (req, res) => {
     const city = req.query.city;
     if(!city){
         res.redirect('/');
-    } else {       
-        getData(city)
+    } else {  
+        getDataScb();     
+        getDataPolisen(city)
         .then(data => res.render('resultpage', {data:data, city:city, statistic: crimeStatistic(data), crimeCount:crimesCount(data)}));
     } 
 };
@@ -14,34 +16,86 @@ exports.resultPagePost = (req, res) => {
     res.render('resultpage');
 };
 
-async function getData (query)  {
+async function getDataScb ()  {
+    let search = await fetch(`http://api.scb.se/OV0104/v1/doris/sv/ssd/am/AM0108/KLKtabell4`);
+    let result = await search.json();
+    console.log(result.variables[0].values[0]);
+}
+
+async function getDataPolisen (query)  {
     let search = await fetch(`https://polisen.se/api/events?locationname=${query}`);
     let result = await search.json();
     return result;
 }
 
+function fillArray(scope, dateSetup){
+    if(scope == 'week'){
+        let weekArray = [];
+        let subtractedDate;
+        let formatedDate; 
+
+        for(let i = 1; i < 8; i++){
+            subtractedDate = date.addDays(dateSetup, -i);
+            formatedDate = date.format(subtractedDate, 'YYYY-MM-DD');
+            weekArray.push(formatedDate); 
+        }
+
+        return weekArray;
+    }
+    else if(scope == 'month'){
+        let monthArray = [];
+        let subtractedDate;
+        let formatedDate; 
+
+        for(let i = 1; i < 31; i++){
+            subtractedDate = date.addDays(dateSetup, -i);
+            formatedDate = date.format(subtractedDate, 'YYYY-MM-DD');
+            monthArray.push(formatedDate); 
+        }
+
+        return monthArray;
+    }
+}
+
 function crimesCount(data){
     let timesArray = [];
+
+    // Skapar en array med brottens datum i formatet 'YYYY-MM-DD'
     for(let i = 0; i < data.length; i++){
-        let date = data[i].datetime;
-        let newDate = date.slice(0,10);
+        let crimeDate = data[i].datetime;
+        let newDate = crimeDate.slice(0,10);
         timesArray.push(newDate);
     }
-    let date = new Date();
-    let fullDate = date.getFullYear() + '-' + '0' + (date.getMonth() + 1) + '-' + date.getDate();
 
-    let today = 0;
+    // Sätter in alla datum som skall stämmas av med brottens datum ( 1 / 7 / 30 dagar)
+    let dateSetup = new Date();
+    let todayDate = date.format(dateSetup, 'YYYY-MM-DD');
+    let weekDates = fillArray('week', dateSetup);
+    let monthDates = fillArray('month', dateSetup);
+
+    // Variabler för att hålla räkning på antal brott
+    let day = 0;
     let week = 0;
     let month = 0;
     
-    timesArray.map((date) => {
-        if(date === fullDate){
-            today++;
+    timesArray.map((d) => {
+        if( d === todayDate){
+            day++;
         }
+        weekDates.map((w) => {
+            if(w == d){
+                week++;
+            }
+        })
+        monthDates.map((m) => {
+            if(m == d){
+                month++;
+            }
+        })
     });
 
     return {
-        today: today,
+        day: day,
         week: week,
         month: month
     };
@@ -138,10 +192,10 @@ function crimeStatistic (crimes){
         }
     }
 
-    const sortable = Object.entries(crimeTypes)
+    const sortedList = Object.entries(crimeTypes)
     .sort(([,a],[,b]) => b-a)
     .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
 
-    return sortable;
+    return sortedList;
 }
 
