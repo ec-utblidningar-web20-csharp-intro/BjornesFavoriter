@@ -54,11 +54,16 @@
         }
         #most-common-crimes{
             margin-right: 3em;
+            width: 30%;
         }
         .flex-container{
             display: flex;
             width: 80%;
             margin: 0 auto;
+            justify-content: space-between;
+        }
+        #crimes-count{
+            width: 30%;
         }
         .crimes-count-display{
             background-color: #2e3e4d;
@@ -66,7 +71,15 @@
             justify-content: center;
             display: flex;
             align-items: center;
-            width: 120%;
+            width: 100%;
+        }
+        #average-pay{
+            margin-left: 2em;
+            width: 30%;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
     </style>
@@ -101,6 +114,9 @@
                 <div class="crimes-count-display">
                     <p>Senaste 30 dagarna: <%= crimeCount.month %> </p>
                 </div>
+            </section>
+            <section id="average-pay">
+                <h2>Genomsnittlig månadslön i <br><%= city %> är <%= income %> </h2>              
             </section>
         </div>
     

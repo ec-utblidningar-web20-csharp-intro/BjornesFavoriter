@@ -6,9 +6,10 @@ exports.resultPageGet = (req, res) => {
     if(!city){
         res.redirect('/');
     } else {  
-        getDataScb();     
+        let income; 
+        getDataScb().then(data => income = data);     
         getDataPolisen(city)
-        .then(data => res.render('resultpage', {data:data, city:city, statistic: crimeStatistic(data), crimeCount:crimesCount(data)}));
+        .then(data => res.render('resultpage', {data:data, city:city, statistic: crimeStatistic(data), crimeCount:crimesCount(data), income: income}));
     } 
 };
 
@@ -16,11 +17,37 @@ exports.resultPagePost = (req, res) => {
     res.render('resultpage');
 };
 
+// SCB skickar just nu enbart med lön för en kommun
+// Behöver implementera metod för kommunkoder vid sökning
+
+let scbSearchVariables = {
+    "query": [{"code":"Region",
+     "selection":{"filter":"item",
+    "values":["1485"]}},
+    {"code":"ContentsCode",
+     "selection":{"filter":"item",
+    "values":["AM0106B3"]}},
+    {"code":"Tid",
+     "selection":{"filter":"item",
+    "values":["2020"]}},
+     {"code":"Kon", "selection":{"filter":"item",
+    "values":["1+2"]}}],
+    "response": {"format":"json"}
+};
+
 async function getDataScb ()  {
-    let search = await fetch(`http://api.scb.se/OV0104/v1/doris/sv/ssd/am/AM0108/KLKtabell4`);
+    let search = await fetch('http://api.scb.se/OV0104/v1/doris/sv/ssd/am/AM0106/AM0106A/Kommun17g', {
+    method: 'POST',
+    body: JSON.stringify(scbSearchVariables),
+    headers: { 'Content-Type': 'application/json' }
+    });
     let result = await search.json();
-    console.log(result.variables[0].values[0]);
+    let income = result.data[0].values;
+    console.log(income[0]);
+    return income[0];
 }
+
+// Hämtar data från polisens api, just nu enbart från stad
 
 async function getDataPolisen (query)  {
     let search = await fetch(`https://polisen.se/api/events?locationname=${query}`);
@@ -28,6 +55,7 @@ async function getDataPolisen (query)  {
     return result;
 }
 
+// Fyller arrayer med datum för en viss tidsperiod
 function fillArray(scope, dateSetup){
     if(scope == 'week'){
         let weekArray = [];
@@ -56,6 +84,8 @@ function fillArray(scope, dateSetup){
         return monthArray;
     }
 }
+
+// Funktion för att räkna hur många brott som sker i en stad per tidsintervall
 
 function crimesCount(data){
     let timesArray = [];
@@ -100,6 +130,8 @@ function crimesCount(data){
         month: month
     };
 }
+
+// Funktion för att fylla i hur många brott per kategori och sedan sortera en array med flest brott först
 
 function crimeStatistic (crimes){
 
