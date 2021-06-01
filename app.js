@@ -8,7 +8,7 @@ app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.use('/', require('./routes/mainRoute'));
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
 	console.log(`Listening to Port: ${PORT}`);
