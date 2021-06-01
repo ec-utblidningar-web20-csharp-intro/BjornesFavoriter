@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
+* {
+	box-sizing: border-box;
+}
+body {
+	background-color: #12191f;
+	color: #dcdcdc;
+	font-family: 'Lato', sans-serif;
+}
+
+.content {
+	height: 100px;
+	text-align: center;
+}
+
+a {
+	text-decoration: none;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.nav-fostrap {
+	display: block;
+	margin-bottom: 15px 0;
+	background: rgb(49, 48, 48);
+	-webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	-ms-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	-o-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+	border-radius: 3px;
+	text-align: center;
+}
+
+.nav-fostrap ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: block;
+}
+
+.nav-fostrap li {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	position: relative;
+	font-size: 14;
+	color: black;
+}
+
+.nav-fostrap li a {
+	padding: 15px 20px;
+	font-size: 14;
+	color: #def1f0;
+	display: inline-block;
+	outline: 0;
+	font-weight: 400;
+}
+
+.nav-fostrap li:hover ul.dropdown {
+	display: block;
+}
+
+.nav-fostrap li ul.dropdown {
+	position: absolute;
+	display: none;
+	width: 200px;
+	background: rgb(49, 48, 48);
+	-webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	-moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	-ms-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	-o-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	padding-top: 0;
+}
+
+.nav-fostrap li ul.dropdown li {
+	display: block;
+	list-style-type: none;
+}
+
+.nav-fostrap li ul.dropdown li a {
+	padding: 15px 20px;
+	font-size: 15px;
+	color: rgb(49, 48, 48);
+	display: block;
+	font-weight: 400;
+}
+
+.nav-fostrap li ul.dropdown li:last-child a {
+	border-bottom: none;
+}
+
+.nav-fostrap li:hover a {
+	background: rgb(49, 48, 48);
+	color: #fff !important;
+}
+
+.nav-fostrap li:first-child:hover a {
+	border-radius: 3px 0 0 3px;
+}
+
+.nav-fostrap li ul.dropdown li:hover a {
+	background: rgba(0, 0, 0, 0.1);
+}
+
+.nav-fostrap li ul.dropdown li:first-child:hover a {
+	border-radius: 0;
+}
+
+.nav-fostrap li:hover .arrow-down {
+	border-top: 5px solid #fff;
+}
+
+.arrow-down {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 5px solid #def1f0;
+	position: relative;
+	top: 15px;
+	right: -5px;
+	content: '';
+}
+.title-mobile {
+	display: none;
+}
+
+.fixed-top {
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+}
+
+input {
+	width: 30%;
+	line-height: 18px;
+	padding: 12px 24px;
+	background-repeat: no-repeat;
+	background-size: 18px 18px;
+	background-position: 95% center;
+	border-radius: 50px;
+	border: 1px solid #def1f0;
+	height: 30px;
+}
+
+.btnSubmit {
+	background-repeat: no-repeat;
+	background-size: 18px 18px;
+	background-position: 95% center;
+	border-radius: 5px;
+	border: 1px solid #def1f0;
+	margin-top: 10px;
+	opacity: 1;
+	transition: 0.3s;
+}
+
+.btnSubmit:hover {
+	opacity: 0.8;
+}
