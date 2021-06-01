@@ -43,14 +43,28 @@ async function getDataScb ()  {
     });
     let result = await search.json();
     let income = result.data[0].values;
-    console.log(income[0]);
+    
     return income[0];
 }
 
 // Hämtar data från polisens api, just nu enbart från stad
-
 async function getDataPolisen (query)  {
-    let search = await fetch(`https://polisen.se/api/events?locationname=${query}`);
+    let newQuery = '';
+    for(let i = 0; i < query.length; i++){
+        if(query[i] == 'ö'){
+            newQuery += '%C3%B6';
+        } 
+        else if(query[i] == 'å'){
+            newQuery += '%C3%A5';
+        }
+        else if(query[i] == 'ä'){
+            newQuery += '%C3%A4';
+        } else {
+            newQuery += query[i];
+        }
+    };
+  
+    let search = await fetch(`https://polisen.se/api/events?locationname=${newQuery}`);
     let result = await search.json();
     return result;
 }
