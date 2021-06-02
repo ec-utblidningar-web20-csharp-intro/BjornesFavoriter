@@ -8,7 +8,6 @@ app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.use('/', require('./routes/mainRoute'));
 
-app.use('/contactPage', require('./routes/mainRoute'));
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
