@@ -2,14 +2,17 @@ const fetch = require('node-fetch');
 const date = require('date-and-time');
 
 exports.resultPageGet = (req, res) => {
-    const city = req.query.city;
+    const search = req.query.city;
+    const city = search.charAt(0).toUpperCase() + search.slice(1);
     if(!city){
         res.redirect('/');
     } else {  
         let income; 
-        getDataScb().then(data => income = data);     
-        getDataPolisen(city)
-        .then(data => res.render('resultpage', {data:data, city:city, statistic: crimeStatistic(data), crimeCount:crimesCount(data), income: income}));
+        nameToCode(city)
+        .then(data => getDataScb(data)
+        .then( data => income = data)
+        .then( getDataPolisen(city).then(data => res.render('resultpage', {data:data, city:city, statistic: crimeStatistic(data), crimeCount:crimesCount(data), income: income}))
+        )).catch();
     } 
 };
 
@@ -17,13 +20,25 @@ exports.resultPagePost = (req, res) => {
     res.render('resultpage');
 };
 
-// SCB skickar just nu enbart med lön för en kommun
-// Behöver implementera metod för kommunkoder vid sökning
+// Omvandla kommunnamn till kommunkoder via API
+
+async function nameToCode(city){
+    let code;
+    let search = await fetch(`http://goteborghangout.ddns.net:3001/api/demotoken/kommuner`);
+    let result = await search.json();
+
+    for(let i = 0; i < result[0].length; i++){
+        if(result[0][i].kommunname == city){
+            code = result[0][i].kommuncode;
+        }
+    }
+    return code;
+}
 
 let scbSearchVariables = {
     "query": [{"code":"Region",
      "selection":{"filter":"item",
-    "values":["1485"]}},
+    "values":['1485']}},
     {"code":"ContentsCode",
      "selection":{"filter":"item",
     "values":["AM0106B3"]}},
@@ -34,8 +49,10 @@ let scbSearchVariables = {
     "values":["1+2"]}}],
     "response": {"format":"json"}
 };
+  
 
-async function getDataScb ()  {
+async function getDataScb (code)  {
+    scbSearchVariables.query[0].selection.values[0] = code;
     let search = await fetch('http://api.scb.se/OV0104/v1/doris/sv/ssd/am/AM0106/AM0106A/Kommun17g', {
     method: 'POST',
     body: JSON.stringify(scbSearchVariables),
