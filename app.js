@@ -1,7 +1,6 @@
 const express = require('express'),
 	app = express();
 
-const { Console } = require('node:console');
 var path = require('path');
 require('dotenv').config();
 
@@ -14,5 +13,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
 	console.log(`Listening to Port: ${PORT}`);
 });
-
-Console.log('hello');
