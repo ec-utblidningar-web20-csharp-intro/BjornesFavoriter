@@ -2,14 +2,17 @@ const express = require('express'),
 	router = express.Router(),
 	mainPage = require('../controllers/MainPage');
 	resultPage = require('../controllers/ResultPage');
-	contactPage = require('../controllers/ContactPage');
 
-router.get('/', mainPage.mainPage);
+  aboutPage = require('../controllers/MainPage');
 
-router.get('/contactpage', contactPage.contactPage);
+  contactPage = require('../controllers/ContactPage');
 
-router.get('/resultpage', resultPage.resultPageGet);
+  router.get('/', mainPage.mainPage);
 
-router.post('/resultpage', resultPage.resultPagePost);
+  router.get('/contactpage', contactPage.contactPage);
 
-module.exports = router;
+  router.get('/resultpage', resultPage.resultPageGet);
+
+  router.post('/resultpage', resultPage.resultPagePost);
+
+  module.exports = router;
