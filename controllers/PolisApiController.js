@@ -3,11 +3,12 @@ var app = express();
 require('dotenv').config();
 var mysql = require('mysql2');
 const token = process.env.TOKEN;
+const password = process.env.PASSWORD;
 
 var con = mysql.createConnection({
-	host: 'goteborghangout.ddns.net',
-	user: 'test',
-	password: `test`,
+	host: '127.0.0.1',
+	user: 'root',
+	password: password,
 	database: 'mydb',
 });
 
@@ -26,7 +27,6 @@ con.connect(function (err) {
 		var sqlConnect = 'SELECT * FROM crimes';
 		con.query(sqlConnect, function (err, result) {
 			if (err) throw err;
-			console.log(result);
 			res.json([result]);
 		});
 	});
@@ -39,7 +39,6 @@ con.connect(function (err) {
 		var sqlPlace = 'SELECT * FROM crimes WHERE place = ?';
 		con.query(sqlPlace, place, function (err, result) {
 			if (err) throw err;
-			console.log(result);
 			res.json([result]);
 		});
 	});
@@ -51,8 +50,17 @@ con.connect(function (err) {
 		var sqlType = 'SELECT * FROM crimes WHERE type = ?';
 		con.query(sqlType, type, function (err, result) {
 			if (err) throw err;
-			console.log(result);
 			res.json([result]);
 		});
 	});
-});
+
+	//http://goteborghangout.ddns.net:3001/api/demotoken/kommuner
+	app.get(`/api/${token}/kommuner`, (req, res) => {
+
+		var sqlkommuner = 'SELECT * FROM kommuner';
+		con.query(sqlkommuner, function (err, result) {
+			if (err) throw err;
+			res.json([result]);
+		});
+	});
+})
