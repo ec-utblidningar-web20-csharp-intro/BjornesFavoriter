@@ -1,7 +1,8 @@
 var express = require('express');
 var app = express();
-
+require('dotenv').config();
 var mysql = require('mysql2');
+const token = process.env.TOKEN;
 
 var con = mysql.createConnection({
 	host: 'goteborghangout.ddns.net',
@@ -19,8 +20,8 @@ con.connect(function (err) {
 	console.log('Connected!');
 
 	//Tar allt
-	//http://goteborghangout.ddns.net:3001/api/crimes
-	app.get('/api/crimes', (req, res, next) => {
+	//http://goteborghangout.ddns.net:3001/token/api/crimes
+	app.get(`/api/${token}/crimes`, (req, res, next) => {
 
 		var sqlConnect = 'SELECT * FROM crimes';
 		con.query(sqlConnect, function (err, result) {
@@ -30,8 +31,9 @@ con.connect(function (err) {
 		});
 	});
 
-	//http://goteborghangout.ddns.net:3001/api/crimes/place/varberg
-	app.get('/api/crimes/place/:place', (req, res) => {
+	//http://goteborghangout.ddns.net:3001/api/token/crimes/place/varberg
+	app.get(`/api/${token}/crimes/place/:place`, (req, res) => {
+
 		const place = req.params.place;
 
 		var sqlPlace = 'SELECT * FROM crimes WHERE place = ?';
@@ -42,8 +44,8 @@ con.connect(function (err) {
 		});
 	});
 
-	//http://goteborghangout.ddns.net:3001/api/crimes/type/trafikolycka
-	app.get('/api/crimes/type/:type', (req, res) => {
+	//http://goteborghangout.ddns.net:3001/api/token/crimes/type/trafikolycka
+	app.get(`/api/${token}/crimes/type/:type`, (req, res) => {
 		const type = req.params.type;
 
 		var sqlType = 'SELECT * FROM crimes WHERE type = ?';
