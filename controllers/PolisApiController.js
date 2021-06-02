@@ -19,18 +19,18 @@ con.connect(function (err) {
 	console.log('Connected!');
 
 	//Tar allt
-	var sqlConnect = 'SELECT * FROM crimes';
-	con.query(sqlConnect, function (err, result) {
-		if (err) throw err;
+	//http://goteborghangout.ddns.net:3001/api/crimes
+	app.get('/api/crimes', (req, res, next) => {
 
-		app.get('/api/crimes', (req, res, next) => {
+		var sqlConnect = 'SELECT * FROM crimes';
+		con.query(sqlConnect, function (err, result) {
+			if (err) throw err;
 			console.log(result);
-
 			res.json([result]);
 		});
 	});
 
-	//localhost/api/crimes/namnPåStället
+	//http://goteborghangout.ddns.net:3001/api/crimes/place/varberg
 	app.get('/api/crimes/place/:place', (req, res) => {
 		const place = req.params.place;
 
@@ -42,7 +42,7 @@ con.connect(function (err) {
 		});
 	});
 
-	//localhost/api/crimes/typAvBrott
+	//http://goteborghangout.ddns.net:3001/api/crimes/type/trafikolycka
 	app.get('/api/crimes/type/:type', (req, res) => {
 		const type = req.params.type;
 
