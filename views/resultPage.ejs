@@ -92,6 +92,7 @@
     </header>
     <main>
         <div class="flex-container">
+            
             <section id="most-common-crimes">
                 <h2>De fem mest vanliga brotten i området</h2>
                 <% let index = 0;  %> 
@@ -119,7 +120,7 @@
                 <h2>Genomsnittlig månadslön i <br><%= city %> är <%= income %> </h2>              
             </section>
         </div>
-    
+    -
         <section id="police-data">
             <table>
                 <tr id="table-header">
@@ -128,12 +129,12 @@
                     <th>Tid</th>
                     <th>Beskrivning</th>
                 </tr>
-                <% data.forEach(function(dat) { %>
+                <% data[0].forEach(function(dat) { %>
                     <tr>
                     <td><%= dat.type %></td>
-                    <td><%= dat.location.name%></td>
-                    <td><%= dat.datetime%></td>
-                    <td><%= dat.summary%></td>
+                    <td><%= dat.place%></td>
+                    <td><%= dat.date%></td>
+                    <td><%= dat.description%></td>
                     </tr>
                 <% }); %>
             </table>

@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const date = require('date-and-time');
+const mysql = require('mysql2/promise');
 
 exports.resultPageGet = (req, res) => {
     const city = req.query.city;
@@ -7,7 +8,6 @@ exports.resultPageGet = (req, res) => {
         res.redirect('/');
     } else {  
         let income; 
-        getDataScb().then(data => income = data);     
         getDataPolisen(city)
         .then(data => res.render('resultpage', {data:data, city:city, statistic: crimeStatistic(data), crimeCount:crimesCount(data), income: income}));
     } 
@@ -17,25 +17,23 @@ exports.resultPagePost = (req, res) => {
     res.render('resultpage');
 };
 
-// SCB skickar just nu enbart med lön för en kommun
-// Behöver implementera metod för kommunkoder vid sökning
+async function getDataScb (code)  {
+    let scbSearchVariables = {
+        "query": [{"code":"Region",
+         "selection":{"filter":"item",
+        "values":['1485']}},
+        {"code":"ContentsCode",
+         "selection":{"filter":"item",
+        "values":["AM0106B3"]}},
+        {"code":"Tid",
+         "selection":{"filter":"item",
+        "values":["2020"]}},
+         {"code":"Kon", "selection":{"filter":"item",
+        "values":["1+2"]}}],
+        "response": {"format":"json"}
+    };
+    
 
-let scbSearchVariables = {
-    "query": [{"code":"Region",
-     "selection":{"filter":"item",
-    "values":["1485"]}},
-    {"code":"ContentsCode",
-     "selection":{"filter":"item",
-    "values":["AM0106B3"]}},
-    {"code":"Tid",
-     "selection":{"filter":"item",
-    "values":["2020"]}},
-     {"code":"Kon", "selection":{"filter":"item",
-    "values":["1+2"]}}],
-    "response": {"format":"json"}
-};
-
-async function getDataScb ()  {
     let search = await fetch('http://api.scb.se/OV0104/v1/doris/sv/ssd/am/AM0106/AM0106A/Kommun17g', {
     method: 'POST',
     body: JSON.stringify(scbSearchVariables),
@@ -49,22 +47,7 @@ async function getDataScb ()  {
 
 // Hämtar data från polisens api, just nu enbart från stad
 async function getDataPolisen (query)  {
-    let newQuery = '';
-    for(let i = 0; i < query.length; i++){
-        if(query[i] == 'ö'){
-            newQuery += '%C3%B6';
-        } 
-        else if(query[i] == 'å'){
-            newQuery += '%C3%A5';
-        }
-        else if(query[i] == 'ä'){
-            newQuery += '%C3%A4';
-        } else {
-            newQuery += query[i];
-        }
-    };
-  
-    let search = await fetch(`https://polisen.se/api/events?locationname=${newQuery}`);
+    let search = await fetch(`http://goteborghangout.ddns.net:3001/api/demotoken/crimes/place/${query}`);
     let result = await search.json();
     return result;
 }
@@ -105,8 +88,8 @@ function crimesCount(data){
     let timesArray = [];
 
     // Skapar en array med brottens datum i formatet 'YYYY-MM-DD'
-    for(let i = 0; i < data.length; i++){
-        let crimeDate = data[i].datetime;
+    for(let i = 0; i < data[0].length; i++){
+        let crimeDate = data[0][i].date;
         let newDate = crimeDate.slice(0,10);
         timesArray.push(newDate);
     }
@@ -230,9 +213,9 @@ function crimeStatistic (crimes){
         'Vållande till kroppsskada': 0
     };
 
-    for(let i = 0; i < crimes.length; i++){
+    for(let i = 0; i < crimes[0].length; i++){
         for(let key in crimeTypes){
-            if(crimes[i].type === key){
+            if(crimes[0][i].type === key){
                 crimeTypes[key] = crimeTypes[key] + 1;
             }
         }
