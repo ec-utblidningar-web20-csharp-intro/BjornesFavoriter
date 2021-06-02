@@ -1,7 +1,6 @@
 const express = require('express'),
 	app = express();
 
-const { Console } = require('node:console');
 var path = require('path');
 require('dotenv').config();
 
