@@ -166,7 +166,6 @@ input {
 	opacity: 0.8;
 }
 
-
 table {
 	width: 80%;
 	margin: 0 auto;
@@ -233,7 +232,8 @@ header {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-=======
+}
+
 .containerContact {
 	display: flex;
 	justify-content: center;
@@ -262,4 +262,8 @@ header {
 	display: flex;
 	justify-content: center;
 	padding-top: 4%;
+}
+
+.sectionForTopList {
+	max-width: 50%;
 }
