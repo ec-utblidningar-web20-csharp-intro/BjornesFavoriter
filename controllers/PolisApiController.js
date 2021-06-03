@@ -63,4 +63,12 @@ con.connect(function (err) {
 			res.json([result]);
 		});
 	});
+
+	app.get(`/api/${token}/crimes/topplista`, (req, res) => {
+		var sql = `(SELECT place, COUNT(*) as count FROM crimes GROUP BY place ORDER BY count DESC)`;
+		con.query(sql, function (err, result){
+			if (err) throw err;
+			res.json([result]);
+		});	
+	})
 })
