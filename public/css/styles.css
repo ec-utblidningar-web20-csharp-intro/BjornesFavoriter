@@ -265,5 +265,12 @@ header {
 }
 
 .sectionForTopList {
-	max-width: 50%;
+	max-width: 30%;
+	margin: 0 auto;
+	font-size: 10px;
+}
+
+.titelForTopList {
+	margin: 0 auto;
+	text-align: center;
 }
