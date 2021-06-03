@@ -44,16 +44,16 @@
             <table class="tableForTopList">
              
                 <tr id="">
-                  <h2 class="titelForTopList">Kommuner med flest brott</h2>
-                    <th>Kommun</th>
-                    <th>Antal Brott</th>
+                  <h2 class="titelForTopList"><b>Kommuner med flest brott </h2>
+                  <h6></h6>
+                    <th class="tdTopList">Kommun</th>
+                    <th class="tdTopList">Antal Brott</th>
 
                 </tr>
                 <% data[0].slice(0, 10).forEach(function(dat) { %>
                     <tr>
-                    <td><%= dat.place %></td>
-                    <td><%= dat.count %></td>
-
+                    <td class="tdTopList"><%= dat.place %></td>
+                    <td class="tdTopList"><%= dat.count %></td>
                     </tr>
                 <% }); %>
             </table>
