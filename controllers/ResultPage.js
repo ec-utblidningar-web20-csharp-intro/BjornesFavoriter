@@ -1,5 +1,8 @@
 const fetch = require('node-fetch');
 const date = require('date-and-time');
+require('dotenv').config();
+
+const fetchtoken = process.env.fetchtoken;
 
 exports.resultPageGet = (req, res) => {
     const search = req.query.city;
@@ -24,7 +27,7 @@ exports.resultPagePost = (req, res) => {
 
 async function nameToCode(city){
     let code;
-    let search = await fetch(`http://goteborghangout.ddns.net:3001/api/demotoken/kommuner`);
+    let search = await fetch(`http://goteborghangout.ddns.net:3001/api/${fetchtoken}/kommuner`);
     let result = await search.json();
 
     for(let i = 0; i < result[0].length; i++){
