@@ -7,6 +7,21 @@ body {
 	color: #dcdcdc;
 	font-family: 'Lato', sans-serif;
 }
+#share-popup{
+	width: 50vw;
+	height: 50vh;
+	background-color: #24323d;
+	position: absolute;
+    top: 200px;
+	left: 25%;
+	z-index: 10;
+	display: none;
+	flex-direction: column;
+}
+
+#share-form{
+	display: flex;
+}
 
 .content {
 	height: 100px;
@@ -233,7 +248,7 @@ header {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-=======
+
 .containerContact {
 	display: flex;
 	justify-content: center;

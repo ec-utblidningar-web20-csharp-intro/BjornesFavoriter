@@ -8,6 +8,7 @@
     <link href="../css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+    <div id="dim">
     <header>
         <h1 id="page-title">
             <%= city.toUpperCase() %> 
@@ -43,7 +44,7 @@
                 <h2>Genomsnittlig månadslön i <br><%= city %> är <%= income %> </h2>              
             </section>
         </div>
-    -
+    
         <section id="police-data">
             <table>
                 <tr id="table-header">
@@ -58,11 +59,39 @@
                     <td><%= dat.place%></td>
                     <td><%= dat.date%></td>
                     <td><%= dat.description%></td>
+                    <td class="share-link" id="<%= dat.id %>">Dela</td>
                     </tr>
                 <% }); %>
             </table>
         </section>
+    </div>
+        <section id="share-popup">
+            <div>
+                <p>Who do you want to send this to?</p>
+            </div>
+            <form action="" id="share-form">
+                <input type="text" id="receiver">
+                <input type="submit">
+            </form>
+        </section>
     </main>
+
+    <script>
+        let links = document.getElementsByClassName("share-link");
+
+        var myFunction = function() {
+            let body = document.querySelector('#dim');
+            body.style.opacity = '50%';
+            let popup = document.querySelector('#share-popup');
+            popup.style.display = 'flex';
+            let attribute = this.getAttribute('id');
+            window.scrollTo(0, 0);
+        };
+
+        for (var i = 0; i < links.length; i++) {
+            links[i].addEventListener('click', myFunction, false);
+        }
+    </script>
 </body>
 </html>
 
