@@ -166,6 +166,74 @@ input {
 	opacity: 0.8;
 }
 
+
+table {
+	width: 80%;
+	margin: 0 auto;
+	text-align: left;
+	border-collapse: collapse;
+}
+th,
+td {
+	padding: 1.5em;
+	width: 25%;
+	border: none;
+}
+tr {
+	width: 100%;
+}
+
+tr:nth-child(even) {
+	background-color: #2e3e4d;
+}
+tr:nth-child(odd) {
+	background-color: #24323d;
+}
+
+#table-header {
+	background-color: #12191f;
+	color: #40576b;
+}
+
+header {
+	width: 80%;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#page-title {
+	font-size: 3em;
+}
+#most-common-crimes {
+	margin-right: 3em;
+	width: 30%;
+}
+.flex-container {
+	display: flex;
+	width: 80%;
+	margin: 0 auto;
+	justify-content: space-between;
+}
+#crimes-count {
+	width: 30%;
+}
+.crimes-count-display {
+	background-color: #2e3e4d;
+	margin-bottom: 2em;
+	justify-content: center;
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+#average-pay {
+	margin-left: 2em;
+	width: 30%;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+=======
 .containerContact {
 	display: flex;
 	justify-content: center;
