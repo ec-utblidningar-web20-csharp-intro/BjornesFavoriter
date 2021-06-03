@@ -162,13 +162,11 @@ input {
 	transition: 0.3s;
 	width: 5%;
 	margin-top: 20px;
-
 }
 
 .btnSubmit:hover {
 	opacity: 0.8;
 }
-
 
 table {
 	width: 80%;
@@ -236,7 +234,7 @@ header {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-=======
+}
 .containerContact {
 	display: flex;
 	justify-content: center;
@@ -266,4 +264,3 @@ header {
 	justify-content: center;
 	padding-top: 4%;
 }
-
