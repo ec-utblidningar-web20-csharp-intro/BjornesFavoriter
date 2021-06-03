@@ -171,10 +171,10 @@ input {
 	justify-content: center;
 	padding-top: 2%;
 	padding-bottom: 1%;
-  }
-  
+}
+
 .contactCard {
-	background: rgb(49, 48, 48);;
+	background: rgb(49, 48, 48);
 	font-size: 20px;
 	padding: 10px;
 	padding-left: 50px;
@@ -188,7 +188,7 @@ input {
 	color: white;
 	background: #2b2b2b;
 	padding: 25px;
-  }
+}
 
 .AboutContainer {
 	display: flex;
