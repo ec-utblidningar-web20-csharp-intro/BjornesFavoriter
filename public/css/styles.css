@@ -7,6 +7,12 @@ body {
 	color: #dcdcdc;
 	font-family: 'Lato', sans-serif;
 }
+
+@keyframes popup {
+	from {opacity: 0;}
+	to {opacity: 100;}
+}
+
 #share-popup{
 	width: 50vw;
 	height: 50vh;
@@ -19,8 +25,49 @@ body {
 	flex-direction: column;
 }
 
+#popup-close{
+	display: flex;
+	justify-content: flex-end;
+	color: white;
+	margin-right: 1em;
+}
+
+#close{
+	cursor: pointer;
+}
+
 #share-form{
 	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+#share-form input{
+	height: 70px;
+	margin: 1em auto;
+	width: 70%;
+	justify-content: center;
+	align-items: center;
+	background-color: #12191f;
+	color: white;
+	font-size: 1em;
+}
+
+.submit:hover{
+	cursor: pointer;
+}
+
+.share-link{
+	cursor: pointer;
+}
+
+#popup-text{
+	display: flex;
+	width: 100%;
+	height: 100px;
+	align-items: center;
+	justify-content: center;
+	font-size: 2em;
 }
 
 .content {
