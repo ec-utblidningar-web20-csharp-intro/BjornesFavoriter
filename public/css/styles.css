@@ -15,6 +15,7 @@ body {
 
 #share-popup{
 	width: 50vw;
+	min-height: 400px;
 	height: 50vh;
 	background-color: #24323d;
 	position: absolute;
@@ -43,7 +44,7 @@ body {
 }
 
 #share-form input{
-	height: 70px;
+	height: 3em;
 	margin: 1em auto;
 	width: 70%;
 	justify-content: center;
@@ -269,16 +270,17 @@ header {
 }
 #most-common-crimes {
 	margin-right: 3em;
-	width: 30%;
+	flex-grow: 1;
 }
 .flex-container {
 	display: flex;
 	width: 80%;
 	margin: 0 auto;
 	justify-content: space-between;
+	flex-wrap: wrap;
 }
 #crimes-count {
-	width: 30%;
+	flex-grow: 1;
 }
 .crimes-count-display {
 	background-color: #2e3e4d;
@@ -290,11 +292,11 @@ header {
 }
 #average-pay {
 	margin-left: 2em;
-	width: 30%;
 	text-align: center;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-grow: 1;
 
 .containerContact {
 	display: flex;
