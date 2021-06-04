@@ -8,6 +8,7 @@
     <link href="../css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+    <div id="dim">
     <nav>
         <div class="nav-fostrap">
           <ul>
@@ -35,6 +36,7 @@
   
           </form>
       </div>
+
     <header>
         <h1 id="page-title">
             <%= city.toUpperCase() %> 
@@ -70,7 +72,7 @@
                 <h2>Genomsnittlig månadslön i <br><%= city %> är <%= income %> </h2>              
             </section>
         </div>
-    -
+    
         <section id="police-data">
             <table>
                 <tr id="table-header">
@@ -81,15 +83,76 @@
                 </tr>
                 <% data[0].forEach(function(dat) { %>
                     <tr>
-                    <td><%= dat.type %></td>
-                    <td><%= dat.place%></td>
-                    <td><%= dat.date%></td>
-                    <td><%= dat.description%></td>
+                        <td><%= dat.type %></td>
+                        <td><%= dat.place %></td>
+                        <td><%= dat.date %></td>
+                        <td><%= dat.description %></td>
+                        <td class="share-link" id="<%= dat.id %>"> Dela </td>
                     </tr>
                 <% }); %>
             </table>
         </section>
+    </div>
+        <section id="share-popup">
+            <div id="popup-close">
+                <p id="close">stäng</p>
+            </div>
+            <div id="popup-text">
+                <p>Dela!</p>
+            </div>
+            <form action="/mailsender" method="GET" id="share-form">
+                <input type="email" id="receiver" name="email" placeholder="skriv en epost här">
+                <input type="hidden" name="type" id="type">
+                <input type="hidden" name="date" id="date">
+                <input type="hidden" name="place" id="place">
+                <input type="hidden" name="description" id="description">
+
+                <input type="submit" class="submit">
+            </form>
+        </section>
     </main>
+
+    <script>
+        let links = document.getElementsByClassName("share-link");
+
+        var popupFunction = function() {
+            window.scrollTo(0, 0);
+            let dim = document.querySelector('#dim');
+            dim.style.opacity = '10%';
+            let popup = document.querySelector('#share-popup');
+            popup.style.display = 'flex';
+            popup.style.animation = 'popup 1s';
+
+            let type = this.parentNode.childNodes[1].innerText;
+            let place = this.parentNode.childNodes[3].innerText;
+            let date = this.parentNode.childNodes[5].innerText;
+            let description = this.parentNode.childNodes[7].innerText;
+
+            let queryType = document.querySelector('#type');
+            let queryPlace = document.querySelector('#place');
+            let queryDate = document.querySelector('#date');
+            let queryDescription = document.querySelector('#description');
+
+            queryType.value = type;
+            queryPlace.value = place;
+            queryDate.value = date;
+            queryDescription.value = description;
+
+        };
+
+        let close = document.querySelector('#close');
+        close.addEventListener('click', () => {
+            let dim = document.querySelector('#dim');
+            dim.style.opacity = '100%';
+            let popup = document.querySelector('#share-popup');
+            popup.style.display = 'none';
+        })
+
+        for (var i = 0; i < links.length; i++) {
+            links[i].addEventListener('click', popupFunction, false);
+        }
+
+    </script>
 </body>
 </html>
 

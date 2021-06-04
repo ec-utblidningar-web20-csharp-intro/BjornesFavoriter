@@ -2,8 +2,11 @@ const fetch = require('node-fetch');
 const date = require('date-and-time');
 require('dotenv').config();
 
-const fetchtoken = process.env.fetchtoken;
+const fetchtoken = process.env.fetchToken;
 
+function  test(){
+    alert();
+}
 exports.resultPageGet = (req, res) => {
 	const search = req.query.city;
 	const city = search.charAt(0).toUpperCase() + search.slice(1);
@@ -27,7 +30,7 @@ exports.resultPageGet = (req, res) => {
 						)
 					)
 			)
-			.catch();
+			.catch( (err) => console.log(err));
 	}
 };
 
