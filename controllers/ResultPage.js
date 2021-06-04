@@ -12,7 +12,8 @@ exports.resultPageGet = (req, res) => {
 	const city = search.charAt(0).toUpperCase() + search.slice(1);
 	if (!city) {
 		res.redirect('/');
-	} else {
+	}
+  else {
 		renderInfo(city).then(data => res.render('resultpage', data));
 	}
 };
@@ -48,6 +49,34 @@ exports.resultPagePost = (req, res) => {
 	res.render('resultpage');
 };
 
+async function getStationInfo(city, resultstation) {
+    let search = await fetch(
+        'https://polisen.se/api/policestations'
+    );
+    let result = await search.json();
+
+	let id;
+	let stations = [];
+
+	for(let i = 0; i < result.length; i++)
+	{
+		stations.push([result[i].id,result[i].name]);
+	}
+
+	for (let i = 0; i < stations.length; i++) {
+		if (stations[i][1].includes(city)) {
+			id = stations[i][0];
+		}
+	}
+
+    let searchforstation = await fetch(
+        `https://polisen.se/api/policestations/${id}`
+    );
+    resultstation = await searchforstation.json();
+	console.log(resultstation.Url);
+	return resultstation;
+
+}
 
 // Omvandla kommunnamn till kommunkoder via API
 
