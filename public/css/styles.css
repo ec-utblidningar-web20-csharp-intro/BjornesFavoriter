@@ -11,6 +11,7 @@ body {
 .content {
 	height: 100px;
 	text-align: center;
+	margin-top: 25px;
 }
 
 a {
@@ -157,9 +158,10 @@ input {
 	background-position: 95% center;
 	border-radius: 5px;
 	border: 1px solid #def1f0;
-	margin-top: 10px;
 	opacity: 1;
 	transition: 0.3s;
+	width: 5%;
+	margin-top: 20px;
 }
 
 .btnSubmit:hover {
@@ -234,55 +236,3 @@ header {
 	justify-content: center;
 }
 
-.containerContact {
-	display: flex;
-	justify-content: center;
-	padding-top: 2%;
-	padding-bottom: 1%;
-}
-
-.contactCard {
-	background: rgb(49, 48, 48);
-	font-size: 20px;
-	padding: 10px;
-	padding-left: 50px;
-	min-width: 450px;
-}
-
-.AboutText {
-	font-size: 30px;
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-	max-width: 540px;
-	color: white;
-	background: #2b2b2b;
-	padding: 25px;
-}
-
-.AboutContainer {
-	display: flex;
-	justify-content: center;
-	padding-top: 4%;
-}
-
-.sectionForTopList {
-	max-width: 30%;
-	margin: 0 auto;
-	font-size: 10px;
-}
-
-.titelForTopList {
-	margin: 0 auto;
-	text-align: center;
-	margin-bottom: 1rem;
-}
-
-.tdTopList {
-	height: 40px;
-	width: 160px;
-	text-align: center;
-	vertical-align: middle;
-}
-
-.brClass {
-	font-size: 8px;
-}
