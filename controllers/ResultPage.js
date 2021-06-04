@@ -78,7 +78,6 @@ async function getDataScb(code) {
 	);
 	let result = await search.json();
 	let income = result.data[0].values;
-
 	return income[0];
 }
 
