@@ -12,30 +12,38 @@ exports.resultPageGet = (req, res) => {
 	const city = search.charAt(0).toUpperCase() + search.slice(1);
 	if (!city) {
 		res.redirect('/');
-	} else {
-		let resultstation = [];
-		let income;
-		nameToCode(city)
-			.then((data) =>
-				getDataScb(data)
-					.then((data) => (income = data))
-					.then(getStationInfo(city) .then(resultstation = data))
-					.then(getDataPolisen(city)
-					.then().then((data) =>
-							res.render('resultpage', {
-								resultstation : resultstation,
-								data: data,
-								city: city,
-								statistic: crimeStatistic(data),
-								crimeCount: crimesCount(data),
-								income: income,
-							})
-						)
-					)
-			)
-			.catch( (err) => console.log(err));
+	}
+  else {
+		renderInfo(city).then(data => res.render('resultpage', data));
 	}
 };
+
+async function renderInfo(city){
+	let data = await getDataPolisen(city);
+	
+	let statistic = crimeStatistic(data);
+	
+	let cc = crimesCount(data);
+	
+	let code = await nameToCode(city);
+	
+	let income = await getDataScb(code);
+	
+	let valResultat = await getDataScbValResultat(code)
+	let x = {
+			data: data,
+			city: city,
+			statistic: statistic,
+			crimeCount: cc,
+			income: income,
+			valResultat: valResultat
+	}
+
+	return x;
+	
+}
+
+
 
 exports.resultPagePost = (req, res) => {
 	res.render('resultpage');
@@ -87,6 +95,61 @@ async function nameToCode(city) {
 	return code;
 }
 
+// Hämtar valresultat från kommun för alla partier
+let scbSearchVariablesValResultat = {
+	"query": [
+	  {
+		"code": "Region",
+		"selection": {
+		  "filter": "vs:RegionKommun07+BaraEjAggr",
+		  "values": [
+			"0114"
+		  ]
+		}
+	  },
+	  {
+		"code": "ContentsCode",
+		"selection": {
+		  "filter": "item",
+		  "values": [
+			"ME0104B6"
+		  ]
+		}
+	  },
+	  {
+		"code": "Tid",
+		"selection": {
+		  "filter": "item",
+		  "values": [
+			"2018"
+		  ]
+		}
+	  }
+	],
+	"response": {
+	  "format": "json"
+	}
+  }
+
+async function getDataScbValResultat(code) {
+	scbSearchVariablesValResultat.query[0].selection.values[0] = code;
+
+	let search = await fetch(
+		'http://api.scb.se/OV0104/v1/doris/sv/ssd/START/ME/ME0104/ME0104C/ME0104T3',
+		{
+			method: 'POST',
+			body: JSON.stringify(scbSearchVariablesValResultat),
+			headers: { 'Content-Type': 'application/json' },
+		}	
+	);
+	let result = await search.json();
+	return result.data;
+}
+
+	//arti: obj.key[1], antal: obj.values[0]}
+
+// Hämtar medelinkomst per person i kommun
+
 let scbSearchVariables = {
 	query: [
 		{ code: 'Region', selection: { filter: 'item', values: ['1485'] } },
@@ -122,6 +185,7 @@ async function getDataPolisen(query) {
 		`http://goteborghangout.ddns.net:3001/api/${fetchtoken}/crimes/place/${query}`
 	);
 	let result = await search.json();
+
 	return result;
 }
 
