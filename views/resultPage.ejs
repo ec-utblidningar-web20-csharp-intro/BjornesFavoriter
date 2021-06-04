@@ -9,6 +9,34 @@
 </head>
 <body>
     <div id="dim">
+    <nav>
+        <div class="nav-fostrap">
+          <ul>
+            <li><a href="/">Home</a></li>    
+            <li><a href="/aboutPage">About</a></li>
+            <li><a href="/contactPage">Contact</a></li>
+            <li><a>References<span class="arrow-down"></span></a>
+                <ul class="dropdown">
+                  <li><a href="https://polisen.se/kontakt/om-webbplatsen/oppna-data/api-over-polisens-handelser/" target="_blank">Polisen</a></li>
+                  <li><a href="https://www.scb.se/en/services/open-data-api/api-for-the-statistical-database/" target="_blank">SCB</a></li>
+                </ul>
+              </li>
+            <li><a href="/faqPage">FAQ</a></li>
+          </ul>
+        </div>
+      </nav>
+    <div class='content'>
+        <form role="search" action="/resultpage" method="GET>
+            <div class="form-group">
+            <input id="search" type="search" name="city" placeholder="Search" autofocus required />
+            <div class="form-group"> 
+                <button class ="btnSubmit" type="submit">Search</button>    
+            </div>
+        </div>
+  
+          </form>
+      </div>
+
     <header>
         <h1 id="page-title">
             <%= city.toUpperCase() %> 
