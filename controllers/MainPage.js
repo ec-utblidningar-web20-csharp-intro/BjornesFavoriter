@@ -15,7 +15,6 @@ exports.mainPage = (req, res) => {
 async function fetchTopplista(){
 	let resp = await fetch(`http://goteborghangout.ddns.net:3001/api/${token}/crimes/topplista`);
 	let data = await resp.json();
-	console.log(data);
 	return data;
 }
 

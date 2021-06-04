@@ -44,6 +44,14 @@
     </header>
     <main>
         <div class="flex-container">
+            <section id="valresultat">
+                <h2>Valresultat i <%= city %></h2>
+                <ul>
+                <% for(let i = 0; i < valResultat.length; i++) { %>
+                   <li><%= valResultat[i].key[1] %>: <%= valResultat[i].values[0] %> </li>
+                <% }; %>
+                </ul>
+            </section>
             
             <section id="most-common-crimes">
                 <h2>De fem mest vanliga brotten i området</h2>
