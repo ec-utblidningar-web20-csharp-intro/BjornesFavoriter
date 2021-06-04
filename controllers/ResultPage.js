@@ -13,14 +13,17 @@ exports.resultPageGet = (req, res) => {
 	if (!city) {
 		res.redirect('/');
 	} else {
+		let resultstation = [];
 		let income;
 		nameToCode(city)
 			.then((data) =>
 				getDataScb(data)
 					.then((data) => (income = data))
-					.then(
-						getDataPolisen(city).then((data) =>
+					.then(getStationInfo(city) .then(resultstation = data))
+					.then(getDataPolisen(city)
+					.then().then((data) =>
 							res.render('resultpage', {
+								resultstation : resultstation,
 								data: data,
 								city: city,
 								statistic: crimeStatistic(data),
@@ -37,6 +40,35 @@ exports.resultPageGet = (req, res) => {
 exports.resultPagePost = (req, res) => {
 	res.render('resultpage');
 };
+
+async function getStationInfo(city, resultstation) {
+    let search = await fetch(
+        'https://polisen.se/api/policestations'
+    );
+    let result = await search.json();
+
+	let id;
+	let stations = [];
+
+	for(let i = 0; i < result.length; i++)
+	{
+		stations.push([result[i].id,result[i].name]);
+	}
+
+	for (let i = 0; i < stations.length; i++) {
+		if (stations[i][1].includes(city)) {
+			id = stations[i][0];
+		}
+	}
+
+    let searchforstation = await fetch(
+        `https://polisen.se/api/policestations/${id}`
+    );
+    resultstation = await searchforstation.json();
+	console.log(resultstation.Url);
+	return resultstation;
+
+}
 
 // Omvandla kommunnamn till kommunkoder via API
 
