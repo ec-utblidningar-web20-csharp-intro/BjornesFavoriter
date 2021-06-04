@@ -269,6 +269,10 @@ header {
 #page-title {
 	font-size: 3em;
 }
+
+#valresultat{
+	flex-grow: 1;
+}
 #most-common-crimes {
 	margin-right: 3em;
 	flex-grow: 1;
