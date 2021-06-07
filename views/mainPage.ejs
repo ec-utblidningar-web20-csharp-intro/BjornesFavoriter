@@ -33,12 +33,31 @@
             <form role="search" action="/resultpage" method="GET>
                 <div class="form-group">
                 <input id="search" type="search" name="city" placeholder="Search" autofocus required />
+                <div class="form-group"> 
+                  <button class ="btnSubmit" type="submit">Search</button>    
+              </div>
             </div>
-            <div class="form-group"> 
-                <button class ="btnSubmit" type="submit">Search</button>    
-            </div>
+           
               </form>
           </div>
+          <section class="sectionForTopList">
+            <table class="tableForTopList">
+             
+                <tr id="">
+                  <h2 class="titelForTopList"><b>Kommuner med flest brott </h2>
+                  <h6></h6>
+                    <th class="tdTopList">Kommun</th>
+                    <th class="tdTopList">Antal Brott</th>
+
+                </tr>
+                <% data[0].slice(0, 10).forEach(function(dat) { %>
+                    <tr>
+                    <td class="tdTopList"><%= dat.place %></td>
+                    <td class="tdTopList"><%= dat.count %></td>
+                    </tr>
+                <% }); %>
+            </table>
+        </section>
       </div>
       </div>
     </body>

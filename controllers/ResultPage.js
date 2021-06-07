@@ -2,38 +2,85 @@ const fetch = require('node-fetch');
 const date = require('date-and-time');
 require('dotenv').config();
 
-const fetchtoken = process.env.fetchtoken;
+const fetchtoken = process.env.fetchToken;
 
+function  test(){
+    alert();
+}
 exports.resultPageGet = (req, res) => {
 	const search = req.query.city;
 	const city = search.charAt(0).toUpperCase() + search.slice(1);
 	if (!city) {
 		res.redirect('/');
-	} else {
-		let income;
-		nameToCode(city)
-			.then((data) =>
-				getDataScb(data)
-					.then((data) => (income = data))
-					.then(
-						getDataPolisen(city).then((data) =>
-							res.render('resultpage', {
-								data: data,
-								city: city,
-								statistic: crimeStatistic(data),
-								crimeCount: crimesCount(data),
-								income: income,
-							})
-						)
-					)
-			)
-			.catch();
+	}
+  else {
+		renderInfo(city).then(data => res.render('resultpage', data));
 	}
 };
+
+async function renderInfo(city){
+	let data = await getDataPolisen(city);
+	
+	let statistic = crimeStatistic(data);
+	
+	let cc = crimesCount(data);
+	
+	let code = await nameToCode(city);
+	
+	let income = await getDataScb(code);
+
+	let resultStation = await getStationInfo(city);
+	let resultgps = resultStation.location.gps.split(",");
+	let gpsscr = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d10000.5466502805!2d${resultgps[1]}!3d${resultgps[0]}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sse!4v1622808164469!5m2!1sen!2sse`
+	let valResultat = await getDataScbValResultat(code)
+	let x = {
+			data: data,
+			city: city,
+			statistic: statistic,
+			crimeCount: cc,
+			income: income,
+			resultStation: resultStation,
+			gpsscr: gpsscr,
+			valResultat: valResultat
+	}
+
+	return x;
+	
+}
+
+
 
 exports.resultPagePost = (req, res) => {
 	res.render('resultpage');
 };
+
+async function getStationInfo(city, resultstation) {
+    let search = await fetch(
+        'https://polisen.se/api/policestations'
+    );
+    let result = await search.json();
+
+	let id;
+	let stations = [];
+
+	for(let i = 0; i < result.length; i++)
+	{
+		stations.push([result[i].id,result[i].name]);
+	}
+
+	for (let i = 0; i < stations.length; i++) {
+		if (stations[i][1].includes(city)) {
+			id = stations[i][0];
+		}
+	}
+
+    let searchforstation = await fetch(
+        `https://polisen.se/api/policestations/${id}`
+    );
+    resultstation = await searchforstation.json();
+	return resultstation;
+
+}
 
 // Omvandla kommunnamn till kommunkoder via API
 
@@ -51,6 +98,61 @@ async function nameToCode(city) {
 	}
 	return code;
 }
+
+// Hämtar valresultat från kommun för alla partier
+let scbSearchVariablesValResultat = {
+	"query": [
+	  {
+		"code": "Region",
+		"selection": {
+		  "filter": "vs:RegionKommun07+BaraEjAggr",
+		  "values": [
+			"0114"
+		  ]
+		}
+	  },
+	  {
+		"code": "ContentsCode",
+		"selection": {
+		  "filter": "item",
+		  "values": [
+			"ME0104B6"
+		  ]
+		}
+	  },
+	  {
+		"code": "Tid",
+		"selection": {
+		  "filter": "item",
+		  "values": [
+			"2018"
+		  ]
+		}
+	  }
+	],
+	"response": {
+	  "format": "json"
+	}
+  }
+
+async function getDataScbValResultat(code) {
+	scbSearchVariablesValResultat.query[0].selection.values[0] = code;
+
+	let search = await fetch(
+		'http://api.scb.se/OV0104/v1/doris/sv/ssd/START/ME/ME0104/ME0104C/ME0104T3',
+		{
+			method: 'POST',
+			body: JSON.stringify(scbSearchVariablesValResultat),
+			headers: { 'Content-Type': 'application/json' },
+		}	
+	);
+	let result = await search.json();
+	return result.data;
+}
+
+	//arti: obj.key[1], antal: obj.values[0]}
+
+// Hämtar medelinkomst per person i kommun
 
 let scbSearchVariables = {
 	query: [
@@ -78,7 +180,6 @@ async function getDataScb(code) {
 	);
 	let result = await search.json();
 	let income = result.data[0].values;
-
 	return income[0];
 }
 
@@ -88,6 +189,7 @@ async function getDataPolisen(query) {
 		`http://goteborghangout.ddns.net:3001/api/${fetchtoken}/crimes/place/${query}`
 	);
 	let result = await search.json();
+
 	return result;
 }
 

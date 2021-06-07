@@ -8,9 +8,73 @@ body {
 	font-family: 'Lato', sans-serif;
 }
 
+@keyframes popup {
+	from {opacity: 0;}
+	to {opacity: 100;}
+}
+
+#share-popup{
+	width: 50vw;
+	min-height: 400px;
+	height: 50vh;
+	background-color: #24323d;
+	position: absolute;
+    top: 200px;
+	left: 25%;
+	z-index: 10;
+	display: none;
+	flex-direction: column;
+}
+
+#popup-close{
+	display: flex;
+	justify-content: flex-end;
+	color: white;
+	margin-right: 1em;
+}
+
+#close{
+	cursor: pointer;
+}
+
+#share-form{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+#share-form input{
+	height: 3em;
+	margin: 1em auto;
+	width: 70%;
+	justify-content: center;
+	align-items: center;
+	background-color: #12191f;
+	color: white;
+	font-size: 1em;
+}
+
+.submit:hover{
+	cursor: pointer;
+}
+
+.share-link{
+	cursor: pointer;
+}
+
+#popup-text{
+	display: flex;
+	width: 100%;
+	height: 100px;
+	align-items: center;
+	justify-content: center;
+	font-size: 2em;
+}
+
 .content {
 	height: 100px;
 	text-align: center;
+	margin-top: 25px;
 }
 
 a {
@@ -157,15 +221,15 @@ input {
 	background-position: 95% center;
 	border-radius: 5px;
 	border: 1px solid #def1f0;
-	margin-top: 10px;
 	opacity: 1;
 	transition: 0.3s;
+	width: 5%;
+	margin-top: 20px;
 }
 
 .btnSubmit:hover {
 	opacity: 0.8;
 }
-
 
 table {
 	width: 80%;
@@ -205,18 +269,23 @@ header {
 #page-title {
 	font-size: 3em;
 }
+
+#valresultat{
+	flex-grow: 1;
+}
 #most-common-crimes {
 	margin-right: 3em;
-	width: 30%;
+	flex-grow: 1;
 }
 .flex-container {
 	display: flex;
 	width: 80%;
 	margin: 0 auto;
 	justify-content: space-between;
+	flex-wrap: wrap;
 }
 #crimes-count {
-	width: 30%;
+	flex-grow: 1;
 }
 .crimes-count-display {
 	background-color: #2e3e4d;
@@ -228,12 +297,12 @@ header {
 }
 #average-pay {
 	margin-left: 2em;
-	width: 30%;
 	text-align: center;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-=======
+	flex-grow: 1;
+
 .containerContact {
 	display: flex;
 	justify-content: center;
@@ -247,19 +316,6 @@ header {
 	padding: 10px;
 	padding-left: 50px;
 	min-width: 450px;
+
 }
 
-.AboutText {
-	font-size: 30px;
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-	max-width: 540px;
-	color: white;
-	background: #2b2b2b;
-	padding: 25px;
-}
-
-.AboutContainer {
-	display: flex;
-	justify-content: center;
-	padding-top: 4%;
-}
