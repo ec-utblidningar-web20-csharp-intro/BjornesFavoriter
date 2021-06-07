@@ -79,7 +79,21 @@
             <section id="average-pay">
                 <h2>Genomsnittlig månadslön i <br><%= city %> är <%= income %> </h2>              
             </section>
-        </div>
+
+
+        <section id="police-station">
+            <div>
+                <h2>Polisstation</h2>
+                <ul>
+                    <li> Namn: <%= resultStation.name %></li>
+                    <li> Adress: <%= resultStation.location.name %></li>
+                        <li></li>
+                    <li> <iframe src=<%= gpsscr %> width="350" height="250" style="border: 3px, black;" allowfullscreen="" loading="lazy"></iframe></li>
+                </ul>
+
+
+            </div>
+    </div>
     
         <section id="police-data">
             <table>
@@ -117,15 +131,6 @@
 
                 <input type="submit" class="submit">
             </form>
-        </section>
-        <section>
-            <div>
-                <% console.log(resultstation.Url) %> 
-                <h1><%= resultstation %></h1>
-                <h1> HEJE HEJ</h1>
-                
-            </div>
-
         </section>
     </main>
 
@@ -168,8 +173,6 @@
         for (var i = 0; i < links.length; i++) {
             links[i].addEventListener('click', popupFunction, false);
         }
-
-
     </script>
 </body>
 </html>

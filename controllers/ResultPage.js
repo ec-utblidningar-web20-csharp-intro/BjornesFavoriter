@@ -28,7 +28,10 @@ async function renderInfo(city){
 	let code = await nameToCode(city);
 	
 	let income = await getDataScb(code);
-	
+
+	let resultStation = await getStationInfo(city);
+	let resultgps = resultStation.location.gps.split(",");
+	let gpsscr = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d10000.5466502805!2d${resultgps[1]}!3d${resultgps[0]}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sse!4v1622808164469!5m2!1sen!2sse`
 	let valResultat = await getDataScbValResultat(code)
 	let x = {
 			data: data,
@@ -36,6 +39,8 @@ async function renderInfo(city){
 			statistic: statistic,
 			crimeCount: cc,
 			income: income,
+			resultStation: resultStation,
+			gpsscr: gpsscr,
 			valResultat: valResultat
 	}
 
@@ -73,7 +78,6 @@ async function getStationInfo(city, resultstation) {
         `https://polisen.se/api/policestations/${id}`
     );
     resultstation = await searchforstation.json();
-	console.log(resultstation.Url);
 	return resultstation;
 
 }
