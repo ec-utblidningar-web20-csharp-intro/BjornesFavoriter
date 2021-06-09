@@ -33,6 +33,11 @@ async function renderInfo(city){
 	let resultgps = resultStation.location.gps.split(",");
 	let gpsscr = `https://www.google.com/maps?q=${resultgps[0]},${resultgps[1]}&z=14&output=embed`;
 	let valResultat = await getDataScbValResultat(code)
+	let summaValResultat = 0;
+	for (let i = 0; i < valResultat.length; i++) {
+		summaValResultat = summaValResultat + JSON.parse(valResultat[i].values[0]);	
+	}
+
 	let x = {
 			data: data,
 			city: city,
@@ -41,7 +46,8 @@ async function renderInfo(city){
 			income: income,
 			resultStation: resultStation,
 			gpsscr: gpsscr,
-			valResultat: valResultat
+			valResultat: valResultat,
+			summaValResultat: summaValResultat
 	}
 
 	return x;
