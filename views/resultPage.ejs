@@ -50,7 +50,7 @@
                 <h2>Valresultat i <%= city %></h2>
                 <ul>
                 <% for(let i = 0; i < valResultat.length; i++) { %>
-                   <li><%= valResultat[i].key[1] %>: <%= valResultat[i].values[0] %> </li>
+                   <li><%= valResultat[i].key[1] %>: <%= (JSON.parse(valResultat[i].values[0])/summaValResultat*100).toFixed(2) + "%" %> </li>
                 <% }; %>
                 </ul>
             </section>

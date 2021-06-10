@@ -35,23 +35,28 @@ async function renderInfo(city){
 	
 		let code = await nameToCode(city);
 	
-		let income = await getDataScb(code);
+	let income = await getDataScb(code);
 
-		let resultStation = await getStationInfo(city);
-		let resultgps = resultStation.location.gps.split(",");
-		let gpsscr = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d10000.5466502805!2d${resultgps[1]}!3d${resultgps[0]}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sse!4v1622808164469!5m2!1sen!2sse`
-		let valResultat = await getDataScbValResultat(code)
-		let x = {
-				data: data,
-				city: city,
-				statistic: statistic,
-				crimeCount: cc,
-				income: income,
-				resultStation: resultStation,
-				gpsscr: gpsscr,
-				valResultat: valResultat,
-				error: 'false'
-		}
+	let resultStation = await getStationInfo(city);
+	let resultgps = resultStation.location.gps.split(",");
+	let gpsscr = `https://www.google.com/maps?q=${resultgps[0]},${resultgps[1]}&z=14&output=embed`;
+	let valResultat = await getDataScbValResultat(code)
+	let summaValResultat = 0;
+	for (let i = 0; i < valResultat.length; i++) {
+		summaValResultat = summaValResultat + JSON.parse(valResultat[i].values[0]);	
+	}
+
+	let x = {
+			data: data,
+			city: city,
+			statistic: statistic,
+			crimeCount: cc,
+			income: income,
+			resultStation: resultStation,
+			gpsscr: gpsscr,
+			valResultat: valResultat,
+			summaValResultat: summaValResultat
+	}
 
 		return x;
 	}
