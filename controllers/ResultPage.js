@@ -9,30 +9,43 @@ function  test(){
 }
 exports.resultPageGet = (req, res) => {
 	const search = req.query.city;
-	const city = search.charAt(0).toUpperCase() + search.slice(1);
-	if (!city) {
+	if (search === '' || search === undefined) {
 		res.redirect('/');
 	}
   else {
+		const city = search.charAt(0).toUpperCase() + search.slice(1);
 		renderInfo(city).then(data => res.render('resultpage', data));
 	}
 };
 
 async function renderInfo(city){
 	let data = await getDataPolisen(city);
+	// Om kommunen som användaren har sökt efter inte ger svar från databasen
+	if(data[0].length < 1){
+		let x = {
+			error: 'true'
+		}
+		return x;
+	}
+	// Om kommunen hittades 
+	else {
+		let statistic = crimeStatistic(data);
 	
-	let statistic = crimeStatistic(data);
+		let cc = crimesCount(data);
 	
-	let cc = crimesCount(data);
-	
-	let code = await nameToCode(city);
+		let code = await nameToCode(city);
 	
 	let income = await getDataScb(code);
 
 	let resultStation = await getStationInfo(city);
 	let resultgps = resultStation.location.gps.split(",");
-	let gpsscr = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d10000.5466502805!2d${resultgps[1]}!3d${resultgps[0]}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sse!4v1622808164469!5m2!1sen!2sse`
+	let gpsscr = `https://www.google.com/maps?q=${resultgps[0]},${resultgps[1]}&z=14&output=embed`;
 	let valResultat = await getDataScbValResultat(code)
+	let summaValResultat = 0;
+	for (let i = 0; i < valResultat.length; i++) {
+		summaValResultat = summaValResultat + JSON.parse(valResultat[i].values[0]);	
+	}
+
 	let x = {
 			data: data,
 			city: city,
@@ -41,11 +54,12 @@ async function renderInfo(city){
 			income: income,
 			resultStation: resultStation,
 			gpsscr: gpsscr,
-			valResultat: valResultat
+			valResultat: valResultat,
+			summaValResultat: summaValResultat
 	}
 
-	return x;
-	
+		return x;
+	}
 }
 
 
@@ -189,7 +203,6 @@ async function getDataPolisen(query) {
 		`http://goteborghangout.ddns.net:3001/api/${fetchtoken}/crimes/place/${query}`
 	);
 	let result = await search.json();
-
 	return result;
 }
 

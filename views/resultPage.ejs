@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ResultPage | <%= city %> </title>
+    <title>ResultPage | <%= locals.city ? city : '' %> </title>
     <link href="../css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -36,7 +36,9 @@
   
           </form>
       </div>
-
+      <% if (error == 'true'){ %>
+        <h1> Det finns inga resultat för din sökning, testa igen! </h1>
+      <% } else { %>
     <header>
         <h1 id="page-title">
             <%= city.toUpperCase() %> 
@@ -48,7 +50,7 @@
                 <h2>Valresultat i <%= city %></h2>
                 <ul>
                 <% for(let i = 0; i < valResultat.length; i++) { %>
-                   <li><%= valResultat[i].key[1] %>: <%= valResultat[i].values[0] %> </li>
+                   <li><%= valResultat[i].key[1] %>: <%= (JSON.parse(valResultat[i].values[0])/summaValResultat*100).toFixed(2) + "%" %> </li>
                 <% }; %>
                 </ul>
             </section>
@@ -174,6 +176,7 @@
             links[i].addEventListener('click', popupFunction, false);
         }
     </script>
+    <% }; %>
 </body>
 </html>
 
