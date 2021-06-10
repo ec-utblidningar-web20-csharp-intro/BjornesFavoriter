@@ -55,7 +55,8 @@ async function renderInfo(city){
 			resultStation: resultStation,
 			gpsscr: gpsscr,
 			valResultat: valResultat,
-			summaValResultat: summaValResultat
+			summaValResultat: summaValResultat,
+			error: 'false'
 	}
 
 		return x;
