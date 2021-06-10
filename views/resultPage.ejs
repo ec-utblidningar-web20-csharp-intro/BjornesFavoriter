@@ -24,15 +24,15 @@
             <li><a href="/faqPage">FAQ</a></li>
           </ul>
         </div>
-      </nav>
+    </nav>
     <div class='content'>
         <form role="search" action="/resultpage" method="GET>
-            <div class="form-group">
+         <div class="form-group">
             <input id="search" type="search" name="city" placeholder="Search" autofocus required />
             <div class="form-group"> 
                 <button class ="btnSubmit" type="submit">Search</button>    
             </div>
-        </div>
+         </div>
   
           </form>
       </div>
@@ -82,7 +82,7 @@
                 <h2>Genomsnittlig månadslön i <br><%= city %> är <%= income %> </h2>              
             </section>
 
-
+            <!-- Har denna Section ett avslut?, eller behövs de eller har de bara blivit fel kring section/div? /chris-->
         <section id="police-station">
             <div>
                 <h2>Polisstation</h2>
@@ -136,6 +136,8 @@
         </section>
     </main>
 
+
+    <!-- Finns möjlighet att flytta denna till .js? -->
     <script>
         let links = document.getElementsByClassName("share-link");
 
