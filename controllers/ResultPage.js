@@ -9,23 +9,31 @@ function  test(){
 }
 exports.resultPageGet = (req, res) => {
 	const search = req.query.city;
-	const city = search.charAt(0).toUpperCase() + search.slice(1);
-	if (!city) {
+	if (search === '' || search === undefined) {
 		res.redirect('/');
 	}
   else {
+		const city = search.charAt(0).toUpperCase() + search.slice(1);
 		renderInfo(city).then(data => res.render('resultpage', data));
 	}
 };
 
 async function renderInfo(city){
 	let data = await getDataPolisen(city);
+	// Om kommunen som användaren har sökt efter inte ger svar från databasen
+	if(data[0].length < 1){
+		let x = {
+			error: 'true'
+		}
+		return x;
+	}
+	// Om kommunen hittades 
+	else {
+		let statistic = crimeStatistic(data);
 	
-	let statistic = crimeStatistic(data);
+		let cc = crimesCount(data);
 	
-	let cc = crimesCount(data);
-	
-	let code = await nameToCode(city);
+		let code = await nameToCode(city);
 	
 	let income = await getDataScb(code);
 
@@ -50,8 +58,8 @@ async function renderInfo(city){
 			summaValResultat: summaValResultat
 	}
 
-	return x;
-	
+		return x;
+	}
 }
 
 
@@ -195,7 +203,6 @@ async function getDataPolisen(query) {
 		`http://goteborghangout.ddns.net:3001/api/${fetchtoken}/crimes/place/${query}`
 	);
 	let result = await search.json();
-
 	return result;
 }
 
